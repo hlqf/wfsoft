@@ -41,7 +41,9 @@ a {
 /**
  * 选课首页
  */
-
+.index-container{
+  margin: 20px 50px;
+}
 .container {
   /*min-width: 100%;*/
 }
@@ -105,4 +107,11 @@ a {
 }
 .course-inform-ul li span {
   float: right;
+}
+
+.right-list {
+  margin-bottom: 25px;
+}
+.right-list li{
+  line-height: 22px;
 }

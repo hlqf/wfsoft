@@ -361,6 +361,31 @@ module.exports = function(app) {
   });
 
   /**
+   * 返回女生最爱课程排名，根据选课女生数量排序得到
+   * @param  {[type]} req [description]
+   * @param  {[type]} res [description]
+   * @return {[type]}     [description]
+   */
+  app.get('/api/Course/ranks/girls', function (req, res) {
+    var CourseModel = require('../models/course/course_main_model');
+
+    CourseModel.getGloveList(function (err, data) {
+      res.json(data);
+    });
+
+  });
+
+  app.get('/api/Course/ranks/hot', function (req, res) {
+    var CourseModel = require('../models/course/course_main_model');
+
+    CourseModel.getHotList(function (err, data) {
+      res.json(data);
+    });
+
+  });
+
+
+  /**
    * 错误的请求地址返回提示
    * @param  {[type]}   req  [description]
    * @param  {[type]}   res  [description]
@@ -375,7 +400,6 @@ module.exports = function(app) {
     //   next();
     // }
   });
-
 
 
 

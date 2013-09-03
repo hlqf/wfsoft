@@ -1,0 +1,63 @@
+<script>
+  $(function () {
+
+    /** 加载右侧边栏信息 **/
+    //加载女生最爱
+    $.ajax({
+      type: "GET",
+      url: "/api/Course/ranks/girls",
+      dataType: "json",
+      data: {
+      },
+      success: function(data) {
+        $('#girls-list').html('');
+        var i;
+        for(i in data) {
+          $('#girls-list').append('<li><a href="/Courses/' + data[i].code + '">' + data[i].name + '</a></li>');
+        }
+      },
+      error: function(xhr) {
+        console.error(xhr);
+      }
+    });
+
+    //加载热门课程
+    $.ajax({
+      type: "GET",
+      url: "/api/Course/ranks/hot",
+      dataType: "json",
+      data: {
+      },
+      success: function(data) {
+        $('#hot-list').html('');
+        var i;
+        for(i in data) {
+          $('#hot-list').append('<li><a href="/Courses/' + data[i].code + '">' + data[i].name + '</a></li>');
+        }
+      },
+      error: function(xhr) {
+        console.error(xhr);
+      }
+    });
+
+    //加载猜你喜欢
+    // $.ajax({
+    //   type: "GET",
+    //   url: "/api/Course/ranks/girls",
+    //   dataType: "json",
+    //   data: {
+    //   },
+    //   success: function(data) {
+    //     $('#girls-list').html('');
+    //     var i;
+    //     for(i in data) {
+    //       $('#girls-list').append('<li><a href="/Courses/' + data[i].code + '">' + data[i].name + '</a></li>');
+    //     }
+    //   },
+    //   error: function(xhr) {
+    //     console.error(xhr);
+    //   }
+    // });
+
+  });
+</script>

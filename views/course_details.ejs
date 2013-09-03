@@ -94,7 +94,7 @@
   </div>
 </div>
 
-<% include javascript.ejs %>
+<% include js_global.ejs %>
 
 <!--当前页面需要的js-->
 <script src="/javascripts/jquery.raty.min.js"></script>
@@ -259,7 +259,6 @@ $(function () {
     }
   });
 
-
   //辅助信息切换
   $('.course-hover-tab').click(function () {
     $('.course-others li').removeClass('active');
@@ -277,5 +276,5 @@ $(function () {
 <!-- <script src="/javascripts/g.pie-min.js"></script> -->
 <!--raphael lib-->
 
-
+<% include js_right_nav.ejs %>
 <% include footer.ejs %>

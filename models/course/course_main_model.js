@@ -112,11 +112,11 @@ var _Course = new Schema({
     },
     taoke: {
       date: { type: Array, default: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
-      rate: { type: Array, default: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+      rate: { type: Array, default: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] } //测试数据
     },
     diandao: {
       date: { type: Array, default: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
-      rate: { type: Array, default: [23, 22, 24, 20, 23, 22, 25, 22, 20, 21, 22, 23] }
+      rate: { type: Array, default: [23, 22, 24, 20, 23, 22, 25, 22, 20, 21, 22, 23] } //测试数据
     }
   },
   comments: {
@@ -126,6 +126,12 @@ var _Course = new Schema({
 
 var CourseModel = mongoose.model('course_main', _Course);
 
+/**
+ * 返回库中所有的课程的所有信息（慎用）
+ * @param  {[type]}   filter   [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
 CourseModel.findAllCourses = function(filter, callback) {
 
   CourseModel.find({}, filter, function(err, data) {
@@ -138,6 +144,13 @@ CourseModel.findAllCourses = function(filter, callback) {
 
 }
 
+/**
+ * 通过课程代码查找某个课程的全部信息
+ * @param  {[type]}   code     [description]
+ * @param  {[type]}   filter   [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
 CourseModel.findByCode = function (code, filter, callback) {
 
   CourseModel.findOne({code: code}, filter, function (err, data) {
@@ -150,6 +163,12 @@ CourseModel.findByCode = function (code, filter, callback) {
 
 }
 
+/**
+ * 通过课程代码查找课程名称
+ * @param  {[type]}   code     [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
 CourseModel.getNameByCode = function (code, callback) {
 
   CourseModel.findOne({code: code}, {name: 1}, function (err, data) {
@@ -203,6 +222,11 @@ CourseModel.addOneSelected = function(itemCode, callback) {
   });
 }
 
+/**
+ * 修改某课程的评分
+ * @param {[type]}   params   [description]
+ * @param {Function} callback [description]
+ */
 CourseModel.addOneScore = function (params, callback) {
   var grade = params.score;
   var code = params.code;
@@ -234,6 +258,28 @@ CourseModel.addOneScore = function (params, callback) {
       }
   });
 
+}
+
+/**
+ * 获得选课女生数量最多的五门课程的代码和名称
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+CourseModel.getGloveList = function (callback) {
+  CourseModel.find({}, {name: 1, code: 1}).sort({'variable.stu.gender.females': -1}).limit(5).exec(function (err, data) {
+    return callback(err, data);
+  });
+}
+
+/**
+ * 获得选课人数最多的五门课程的代码和名称
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+CourseModel.getHotList = function (callback) {
+  CourseModel.find({}, {name: 1, code: 1}).sort({'variable.selected': -1}).limit(5).exec(function (err, data) {
+    return callback(err, data);
+  });
 }
 
 

@@ -85,11 +85,21 @@ body {
   </form>
 </div>
 
-<% include javascript.ejs %>
+<% include js_global.ejs %>
 
 <!--当前页面需要的js-->
 <script>
-  $(function(){
+  $(function () {
+
+    $('input').focus(function () {
+      $('#err-alert').hide();
+    });
+    $('#password').keyup(function (e) {
+      if (e.keyCode === 13) {
+        $("#login-submit").click();
+      }
+    });
+
     $("#login-submit").click(function(){
       var username = $("#username").val();
       var password = $("#password").val();
@@ -116,6 +126,7 @@ body {
         $("#err-alert").fadeIn();
       }
     });
+
   });
 </script>
 <% include footer %>
