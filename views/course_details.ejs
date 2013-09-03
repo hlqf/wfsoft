@@ -1,0 +1,281 @@
+<% include header.ejs %>
+<% include navbar-top.ejs %>
+<div class="container">
+  <div class="courses-lt row">
+    <div class="col-md-9">
+      <section class="course-info">
+        <header>
+          <hgroup>
+            <h2><%= name %> - <%= code %></h2>
+            <p>教师 <span><a href="#">加载中...</a></span></p>
+            <p>时间 <span>加载中...</span></p>
+            <p>地点 <span>加载中...</span></p>
+            <p>学分 <span>加载中...</span></p>
+            <input type="hidden" id="_code" value="<%= code %>">
+          </hgroup>
+          <div class="course-score">
+            <h5>评分 <span id="score-hint">评分更新中</span></h5>
+            <p><span id="course-details-score"></span></p>
+            <h5>综合得分</h5>
+            <p><span id="rate-num">加载中</span></p>
+          </div>
+        </header>
+      </section>
+      <div class="clearfix"></div>
+
+      <section class="course-info-details course-intro">
+        <h4>课程介绍</h4>
+        <div class="gray-line"></div>
+        <div class="course-intro-p" id="course-introduction">
+          加载中，请稍后 》》》》
+        </div>
+        
+      </section>
+
+      <section class="course-info-details">
+        <h4>辅助信息</h4>
+        <div class="gray-line"></div>
+        <div class="course-others">
+          <ul class="nav nav-pills">
+            <li class="active"><a href="javascript:void(0);" class="course-hover-tab" id="course-tab-1">统计数据</a></li>
+            <li><a href="javascript:void(0);" class="course-hover-tab" id="course-tab-2">课程公告</a></li>
+            <li><a href="javascript:void(0);" class="course-hover-tab" id="course-tab-3">评论</a></li>
+          </ul>
+
+          <div class="course-others-content">
+            <div id="course-tab-1-cont" class="course-tab-cont">
+              <h4>选该门课程的男女比例为：</h4>
+              <div class="" id="mf-pie-chart">
+              </div>
+
+              <h4>这门课程的逃课率记录为：</h4>
+              <div class="" id="tao-line-chart">
+              </div>
+
+              <h4>这门课程的点到率记录为：</h4>
+              <div class="" id="dian-line-chart">
+              </div>
+            </div>
+
+            <div id="course-tab-2-cont" class="course-tab-cont" style="display:none">
+              <ul class="course-inform-ul">
+                <li><a href="#">本周三的课程取消！</a><span>2013-10-02</span></li>
+                <li><a href="#">本周三的课程取消！</a><span>2013-10-02</span></li>
+                <li><a href="#">本周三的课程取消！</a><span>2013-10-02</span></li>
+                <li><a href="#">本周三的课程取消！</a><span>2013-10-02</span></li>
+                <li><a href="#">本周三的课程取消！</a><span>2013-10-02</span></li>
+              </ul>
+            </div>
+
+            <div id="course-tab-3-cont" class="course-tab-cont" style="display:none">
+              <!-- Duoshuo Comment BEGIN -->
+              <div class="ds-thread"></div>
+              <script type="text/javascript">
+              var duoshuoQuery = {short_name:"hlqf"};
+                (function() {
+                  var ds = document.createElement('script');
+                  ds.type = 'text/javascript';ds.async = true;
+                  ds.src = 'http://static.duoshuo.com/embed.js';
+                  ds.charset = 'UTF-8';
+                  (document.getElementsByTagName('head')[0] 
+                  || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+                </script>
+              <!-- Duoshuo Comment END -->
+            </div>
+            
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="col-md-3">
+        <% include affix_nav %>
+    </div>
+  </div>
+</div>
+
+<% include javascript.ejs %>
+
+<!--当前页面需要的js-->
+<script src="/javascripts/jquery.raty.min.js"></script>
+<script src="/javascripts/affix.js"></script>
+<script>
+//raphael的饼图拓展
+Raphael.fn.pieChart = function (cx, cy, r, values, labels, colors, stroke) {
+    var paper = this;
+    var rad = Math.PI / 180;
+    var chart = this.set();
+    function sector(cx, cy, r, startAngle, endAngle, params) {
+        var x1 = cx + r * Math.cos(-startAngle * rad),
+            x2 = cx + r * Math.cos(-endAngle * rad),
+            y1 = cy + r * Math.sin(-startAngle * rad),
+            y2 = cy + r * Math.sin(-endAngle * rad);
+        return paper.path(["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"]).attr(params);
+    }
+    var angle = 0;
+    var total = 0;
+    var start = 0;
+    var process = function (j, color) {
+            var value = values[j],
+                angleplus = 360 * value / total,
+                popangle = angle + (angleplus / 2),
+                //color = Raphael.hsb(start, .75, 1),
+                ms = 500,
+                delta = 25,
+                bcolor = Raphael.hsb(start, 1, 1),
+                p = sector(cx, cy, r, angle, angle + angleplus, {fill: color, stroke: stroke, "stroke-width": 3}),
+                txt = paper.text(cx + (r + delta + 35) * Math.cos(-popangle * rad), cy + (r + delta + 5) * Math.sin(-popangle * rad), labels[j]).attr({fill: color, stroke: "none", opacity: 0, "font-size": 20});
+            p.mouseover(function () {
+                p.stop().animate({transform: "s1.1 1.1 " + cx + " " + cy}, ms, "elastic");
+                txt.stop().animate({opacity: 1}, ms, "elastic");
+            }).mouseout(function () {
+                p.stop().animate({transform: ""}, ms, "elastic");
+                txt.stop().animate({opacity: 0}, ms);
+            });
+            angle += angleplus;
+            chart.push(p);
+            chart.push(txt);
+            start += .1;
+        };
+    for (var i = 0, ii = values.length; i < ii; i++) {
+        total += values[i];
+    }
+    for (i = 0; i < ii; i++) {
+        process(i, colors[i]);
+    }
+    return chart;
+};
+</script>
+
+<script>
+$(function () {
+
+  var code = $('#_code').val();
+
+  //通过一个xhr线程，先获取前面的主要课程信息
+  $.ajax({ 
+    type: "GET",
+    url: "/api/Course/mainInfo/" + code,
+    dataType: "json",
+    data: {
+    },
+    success: function(data) {
+
+      //数据获取成功后填入hgroup部分的文字信息
+      $('.course-info hgroup p span:eq(0) a').text(data.variable.teacher.name);
+      $('.course-info hgroup p span:eq(0) a').attr('href', '/Teachers/' + data.variable.teacher.num);
+      $('.course-info hgroup p span:eq(1)').text(data.variable.time.display);
+      $('.course-info hgroup p span:eq(2)').text(data.variable.place.display);
+      $('.course-info hgroup p span:eq(3)').text(data.variable.credit);
+      $('#rate-num').text(data.data.score.average);
+      // $('#course-introduction').html(data.intro);
+
+      //打分器生成及参数设置
+      var beforeScore = parseInt(data.data.score.average);
+      $('#course-details-score').raty({ 
+        score: beforeScore,
+        path: '/images',
+        readOnly: false,
+        target: '#score-hint',
+        targetType: 'number',
+        click: function(score, evt) {
+          $.ajax({
+            type: 'PUT',
+            url: '/api/Course/' + code + '/score/' + score,
+            dataType: "json",
+            success: function (data) {
+              $('#score-hint').text('评分成功');
+              $('#course-details-score').raty('readOnly', true);
+            },
+            error: function (xhr) {
+              $('#course-details-score').raty('score', beforeScore);
+              $('#course-details-score').raty('readOnly', true);
+            },
+            statusCode: {
+              500: function (xhr) {
+                if (xhr.responseJSON === 'Marked already.') {
+                  $('#score-hint').text('已经打过分');
+                }
+              }
+            }
+          });
+        },
+      });
+    },
+    error: function(xhr) {
+      console.log(xhr);
+    }
+  });
+  
+  //通过另外一个线程获取并绘制下面的统计数据
+  $.ajax({ 
+    type: "GET",
+    url: "/api/Course/dataInfo/" + code,
+    dataType: "json",
+    data: {
+    },
+    success: function (data) {
+        //加载并绘制男女饼图
+        var values = [];
+        var labels = [];
+        var colors = [];
+        var males = data.variable.stu.gender.males;
+        var females = data.variable.stu.gender.females;
+        values = [males, females];
+        labels = ['男生' + males + '人', '女生' + females + '人'];
+        colors = ["#3fa9f5", "#ff88a2"];
+        //$("table").hide();
+        Raphael("mf-pie-chart", 360, 290).pieChart(180, 140, 90, values, labels, colors, "#fff");
+
+        //绘制逃课折线图
+        var r = Raphael("tao-line-chart");
+        var date = data.data.taoke.date;
+        var rate = data.data.taoke.rate;
+        var lines = r.linechart(20, 50, 350, 220, [date], [rate], { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true, }).hoverColumn(function () {
+            this.tags = r.set();
+            for (var i = 0, ii = this.y.length; i < ii; i++) {
+                this.tags.push(r.tag(this.x, this.y[i], this.values[i], 160, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
+            }
+        }, function () {
+            this.tags.remove();
+        });
+
+        //绘制点到折线图
+        var rb = Raphael("dian-line-chart");
+        var date = data.data.diandao.date;
+        var rate = data.data.diandao.rate;
+        var linesb = rb.linechart(20, 50, 350, 220, [date], [rate], { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true, }).hoverColumn(function () {
+            this.tags = rb.set();
+            for (var i = 0, ii = this.y.length; i < ii; i++) {
+                this.tags.push(rb.tag(this.x, this.y[i], this.values[i], 160, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
+            }
+        }, function () {
+            this.tags && this.tags.remove();
+        });
+    },
+    error: function (xhr) {
+      console.log(xhr);
+      alert('貌似出现了一个未知错误，请查看控制台。');
+    }
+  });
+
+
+  //辅助信息切换
+  $('.course-hover-tab').click(function () {
+    $('.course-others li').removeClass('active');
+    $(this).closest('li').addClass('active');
+    var objId = $(this).attr('id');
+    $('.course-tab-cont').hide();
+    $('#' + objId + '-cont').show();
+  });
+
+});
+</script>
+
+<!--raphael lib-->
+<script src="/javascripts/g.line-min.js"></script>
+<!-- <script src="/javascripts/g.pie-min.js"></script> -->
+<!--raphael lib-->
+
+
+<% include footer.ejs %>

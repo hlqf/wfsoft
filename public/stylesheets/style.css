@@ -1,0 +1,108 @@
+body {
+  padding: 50px 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+/*闪烁*/
+@-webkit-keyframes twinkling{    /*透明度由0到1*/  
+   0%{  
+      opacity:0.3; /*透明度为0*/  
+    }  
+   100%{  
+      opacity:1; /*透明度为1*/  
+  
+   }  
+ } 
+
+.gray-line {
+  width: 100%;
+  border-top: 1px solid #c3c3c3;
+}
+.top-alert {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+}
+.bs-callout-warning {
+  background-color: #fefbed;
+  border-color: #f1e7bc;
+}
+.bs-callout {
+  margin: 20px 0;
+  padding: 15px 30px 15px 15px;
+  border-left: 5px solid #eee;
+}
+
+/**
+ * 选课首页
+ */
+
+.container {
+  /*min-width: 100%;*/
+}
+.choice-table {
+  
+}
+#choice-table-body tr:hover {
+  cursor: pointer;
+}
+
+
+
+/**
+ * 课程信息页面
+ */
+
+.courses-lt {
+  margin-top: 30px;
+}
+
+.course-info header hgroup {
+  float: left;
+}
+.course-info header p, .course-score h5 {
+  color: #666;
+  font-size: 12px;
+}
+.course-info header p span {
+  color: #000;
+}
+.course-score {
+  padding-top: 53px;
+  float: right;
+}
+#rate-num {
+  color: red;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.course-info-details {
+  padding: 10px 0 0 0;
+}
+
+.course-intro-p {
+  padding: 10px 0px;
+  line-height: 22px;
+}
+.course-others {
+  padding: 10px 0;
+}
+.course-others-content {
+  padding: 10px 0;
+}
+.course-inform-ul li{
+  line-height: 35px;
+  color: #999;
+}
+.course-inform-ul a {
+  color: #333;
+}
+.course-inform-ul li span {
+  float: right;
+}

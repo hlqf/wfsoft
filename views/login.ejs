@@ -1,0 +1,121 @@
+<% include header %>
+<style>
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.have-error {
+  margin-bottom: 10px;
+  display: block;
+  padding: 10px 0px;
+}
+</style>
+
+<div class="container">
+  <form class="form-signin" method="post" action="/api/User/doLogin">
+    <h2 class="form-signin-heading">欢迎访问，请登录</h2>
+    <h4 class="label label-warning have-error"><%= haveErr %></h4>
+    <input type="text" name="username" id="username" class="form-control" placeholder="请输入您的学号或工号" autofocus>
+    <input type="password" name="password" id="password" class="form-control" placeholder="请输入您的密码">
+    <label class="checkbox">
+      <input type="checkbox" value="remember-me">记住我
+    </label>
+
+    <div class="alert alert-danger" id="err-alert" style="display:none;">
+      <span></span>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="button" id="login-submit">登 录</button>
+    <!-- <fieldset>
+      <legend>用户登陆</legend>
+      <div class="control-group">
+        <p></p>
+        <label class="control-label" for="username">用户名</label>
+        <div class="controls">
+          <input type="text" class="input-xlarge" id="username" name="username"></div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="password">密码</label>
+        <div class="controls">
+          <input type="password" class="input-xlarge" id="password" name="password"></div>
+      </div>
+      <div class="alert alert-error" id="err-alert" style="display:none;">
+        <a class="close" data-dismiss="alert">×</a>
+        <span></span>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-primary" id="login-submit">登陆</button>
+      </div>
+    </fieldset> -->
+  </form>
+</div>
+
+<% include javascript.ejs %>
+
+<!--当前页面需要的js-->
+<script>
+  $(function(){
+    $("#login-submit").click(function(){
+      var username = $("#username").val();
+      var password = $("#password").val();
+      if (username != '' && password != '') {
+        $.ajax({
+          type: "GET",
+          url: "/api/User/doLogin",
+          dataType: "json",
+          data: {
+            username: username,
+            password: password
+          },
+          success: function(data) {
+            window.location.href = "/home";
+          },
+          error: function(xhr) {
+            $("#err-alert span").text(xhr.responseJSON);
+            $("#err-alert").fadeIn();
+          }
+        });
+      } else {
+        console.log('message');
+        $("#err-alert span").text("用户名或密码不能为空。");
+        $("#err-alert").fadeIn();
+      }
+    });
+  });
+</script>
+<% include footer %>

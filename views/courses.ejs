@@ -1,0 +1,63 @@
+<% include header.ejs %>
+<% include navbar-top.ejs %>
+<div class="container">
+  <div class="courses-lt row">
+    <div class="col-md-9">
+      <section class="courses-lf-part">
+        <h4>所有课程</h4>
+        <div class="allcourse">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>课程号</th>
+                <th>课程名称</th>
+                <th>任课老师</th>
+                <th>上课时间</th>
+                <th>评分</th>
+              </tr>
+            </thead>
+            <tbody id="allcourses-table-body">
+              <!--此处为ajax加载填充的课程列表-->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+    <div class="col-md-3">
+        <% include affix_nav %>
+    </div>
+  </div>
+</div>
+
+<% include javascript.ejs %>
+
+<!--当前页面需要的js-->
+<script>
+  $(function () {
+    
+    $.ajax({
+      type: "GET",
+      url: "/api/Course/infoCenter",
+      dataType: "json",
+      data: {
+      },
+      success: function(data) {
+        console.log(data);
+        var i;
+          for(i in data) {
+            $("#allcourses-table-body").append('<tr><td>' + data[i].code + '</td><td><a href="/Courses/' + data[i].code + '">' + data[i].name + '</a></td><td><a href="/Teachers/' + data[i].variable.teacher.id + '">' + data[i].variable.teacher.name + '</a></td><td>' + data[i].variable.time.display + '</td><td>' + data[i].data.score.average + '</td></tr>');
+          }
+
+        
+      },
+      error: function(xhr) {
+        $("#err-alert span").text(xhr.responseJSON);
+        $("#err-alert").fadeIn();
+      }
+    });
+
+  });
+</script>
+<script src="/javascripts/affix.js"></script>
+<% include footer.ejs %>

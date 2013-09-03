@@ -1,0 +1,64 @@
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">歪方选课系统</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li <% if (typeof(isHome) !== 'undefined'){%> class="active" <%}%>>
+          <a href="/Home">主页</a>
+        </li>
+        <li <% if (typeof(isCourses) !== 'undefined') {%> class="active" <%}%>>
+          <a href="/Courses">课程信息</a>
+        </li>
+        <li <% if (typeof(isMyCourses) !== 'undefined') {%> class="active" <%}%>>
+          <a href="/Mycourses">我的课程</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <% if (!!locals.user) { %>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <span class="glyphicon glyphicon-user"></span>
+            <%= locals.user.realname %>
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="#">个人设置</a>
+            </li>
+            <li>
+              <a href="#">修改密码</a>
+            </li>
+            <li>
+              <a href="http://bbs.redhome.cc">跳到论坛</a>
+            </li>
+            <li>
+              <a href="/logout">安全退出</a>
+            </li>
+          </ul>
+        </li>
+        <% } else { %>
+        <li>
+          <a href="/login"><span class="glyphicon glyphicon-lock"></span> 登录</a>
+        </li>
+        <% } %>
+            
+            <!-- <li class="divider"></li>
+            <li class="dropdown-header">实用链接</li>
+            <li>
+              <a href="#">Separated link</a>
+            </li>
+            <li>
+              <a href="#">One more separated link</a>
+            </li> -->
+          
+      </ul>
+    </div>
+    <!--/.nav-collapse --> </div>
+</div>
