@@ -1,0 +1,1 @@
+{ "options" : { "create" : "course_scores" }, "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "wfsoft.course_scores", "name" : "_id_" }, { "v" : 1, "key" : { "username" : 1 }, "unique" : true, "ns" : "wfsoft.course_scores", "name" : "username_1", "background" : true, "safe" : null } ] }
